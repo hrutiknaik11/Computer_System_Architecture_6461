@@ -27,22 +27,7 @@ JButton storeplus=new JButton("STORE +");
 JButton loaddown=new JButton("LOAD");
 JButton init=new JButton("INIT");
 
-JButton fifteen=new JButton("15");
-JButton fourteen=new JButton("14");
-JButton thirteen=new JButton("13");
-JButton twelve=new JButton("12");
-JButton eleven=new JButton("11");
-JButton ten=new JButton("10");
-JButton nine=new JButton("9");
-JButton eight=new JButton("8");
-JButton seven=new JButton("7");
-JButton six=new JButton("6");
-JButton five=new JButton("5");
-JButton four=new JButton("4");
-JButton three=new JButton("3");
-JButton two=new JButton("2");
-JButton one=new JButton("1");
-JButton zero=new JButton("0");
+
 JButton ss=new JButton("SS");
 JButton run=new JButton("RUN");
 
@@ -65,28 +50,7 @@ init.setBounds(1350,560,100,40);
 init.setBackground(Color.red);
 init.setForeground(Color.white);
 
-fifteen.setBounds(50,650,50,100);
-fourteen.setBounds(110,650,50,100);
-thirteen.setBounds(170,650,50,100);
-twelve.setBounds(230,650,50,100);
-eleven.setBounds(290,650,50,100);
-ten.setBounds(350,650,50,100);
 
-nine.setBounds(450,650,50,100);
-eight.setBounds(510,650,50,100);
-
-seven.setBounds(610,650,50,100);
-six.setBounds(670,650,50,100);
-
-five.setBounds(770,650,50,100);
-five.setBackground(Color.blue);
-five.setForeground(Color.white);
-
-four.setBounds(870,650,50,100);
-three.setBounds(930,650,50,100);
-two.setBounds(990,650,50,100);
-one.setBounds(1050,650,50,100);
-zero.setBounds(1110,650,50,100);
 
 ss.setBounds(1210,650,50,100);
 run.setBounds(1270,650,60,100);
@@ -108,25 +72,11 @@ add(storeplus);
 add(loaddown);
 add(init);
 
-add(fifteen);
-add(fourteen);
-add(thirteen);
-add(twelve);
-add(eleven);
-add(ten);
-add(nine);
-add(eight);
-add(seven);
-add(six);
-add(five);
-add(four);
-add(three);
-add(two);
-add(one);
-add(zero);
 
 add(ss);
 add(run);
+
+JTextField bigbox= new JTextField();
 
 JTextField righttf1= new JTextField();
 JTextField righttf2= new JTextField();
@@ -164,7 +114,9 @@ lefttf7.setBounds(100,560,400,40);
 halt2.setBounds(1450,650,75,40);
 run2.setBounds(1450,710,75,40);
 
+bigbox.setBounds(50,675,1100,50);
 
+add(bigbox);
 add(righttf1);
 add(righttf2);
 add(righttf3);
