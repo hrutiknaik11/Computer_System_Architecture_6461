@@ -1,226 +1,343 @@
 package com.mycompany.mslgui;
 
 /**
- *
+ * @author Tharun Ganapathi Raman
  * @author hrutu
  */
 
 import java.awt.Color;
 import javax.swing.*;  
-public class Mslgui extends JFrame{//inheriting JFrame  
-JFrame f;  
-Mslgui(){  
-JButton loadright1=new JButton("LOAD");//create button  
-JButton loadright2=new JButton("LOAD");
-JButton loadright3=new JButton("LOAD");
+public class Mslgui extends JFrame {
 
-JButton loadleft1=new JButton("LOAD");
-JButton loadleft2=new JButton("LOAD");
-JButton loadleft3=new JButton("LOAD");
-JButton loadleft4=new JButton("LOAD");
-JButton loadleft5=new JButton("LOAD");
-JButton loadleft6=new JButton("LOAD");
-JButton loadleft7=new JButton("LOAD");
+    private final Service service;
+    private JButton pcLoadButton;
+    private JButton marLoadButton;
+    private JButton mbrLoadButton;
+    private JButton gprZeroLoadButton;
+    private JButton gprOneLoadButton;
+    private JButton gprTwoLoadButton;
+    private JButton gprThreeLoadButton;
+    private JButton ixrOneLoadButton;
+    private JButton ixrTwoLoadButton;
+    private JButton ixrThreeLoadButton;
+    private JButton storeButton;
+    private JButton storePlusButton;
+    private JButton mainLoadButton;
+    private JButton initButton;
+    private JButton singleStepButton;
+    private JButton runButton;
+    private JTextField opcodeTextField;
+    private JTextField programControlTextField;
+    private JTextField marTextField;
+    private JTextField mbrTextField;
+    private JTextField irTextField;
+    private JTextField mfrTextField;
+    private JTextField privilegedTextField;
+    private JTextField gprZeroTextField;
+    private JTextField gprOneTextField;
+    private JTextField gprTwoTextField;
+    private JTextField gprThreeTextField;
+    private JTextField ixrOneTextField;
+    private JTextField ixrTwoTextField;
+    private JTextField ixrThreeTextField;
+    private JTextField haltTextField;
+    private JTextField runTextField;
+    private JLabel gprZeroLabel;
+    private JLabel gprOneLabel;
+    private JLabel gprTwoLabel;
+    private JLabel gprThreeLabel;
+    private JLabel ixrOneLabel;
+    private JLabel ixrTwoLabel;
+    private JLabel ixrThreeLabel;
+    private JLabel programControlLabel;
+    private JLabel marLabel;
+    private JLabel mbrLabel;
+    private JLabel irLabel;
+    private JLabel mfrLabel;
+    private JLabel privilegedLabel;
+    private JLabel operationsOpcodeLabel;
+    private JLabel gprOpcodeLabel;
+    private JLabel ixrOpcodeLabel;
+    private JLabel indirectModeOpcodeLabel;
+    private JLabel addressOpcodeLabel;
+    private JLabel haltLabel;
+    private JLabel runLabel;
+    Mslgui() {
+        this.service = new Service();
+        createGUIComponents();
+        applyStylesGUIComponents();
+        addGUIComponentsInFrame();
+        applyFrameStyle();
+        updateOrSetAllTextFieldValues();
+        addComponentListeners();
+        System.out.println(service.simulator);
+    }
 
-JButton store=new JButton("STORE");
-JButton storeplus=new JButton("STORE +");
-JButton loaddown=new JButton("LOAD");
-JButton init=new JButton("INIT");
+    private void createGUIComponents() {
+        createButtons();
+        createTextFields();
+        createLabels();
+    }
 
+    private void applyStylesGUIComponents() {
+        applyButtonStyles();
+        applyStylesTextFields();
+        applyStylesLabel();
+    }
 
-JButton ss=new JButton("SS");
-JButton run=new JButton("RUN");
+    private void addGUIComponentsInFrame() {
+        addButtons();
+        addTextFields();
+        addLabels();
+    }
 
-loadright1.setBounds(1400,80,100, 40);  
-loadright2.setBounds(1400,150,100, 40);
-loadright3.setBounds(1400,220,100, 40);
+    private void applyFrameStyle() {
+        setSize(300,400);
+        setLayout(null);
+        setVisible(true);
+    }
 
-loadleft1.setBounds(565,80,100, 40);
-loadleft2.setBounds(565,150,100, 40);
-loadleft3.setBounds(565,220,100, 40);
-loadleft4.setBounds(565,290,100, 40);
-loadleft5.setBounds(565,420,100, 40);
-loadleft6.setBounds(565,490,100, 40);
-loadleft7.setBounds(565,560,100, 40);
+    private void createButtons() {
+        this.pcLoadButton = new JButton("LOAD");
+        this.marLoadButton = new JButton("LOAD");
+        this.mbrLoadButton = new JButton("LOAD");
+        this.gprZeroLoadButton = new JButton("LOAD");
+        this.gprOneLoadButton = new JButton("LOAD");
+        this.gprTwoLoadButton = new JButton("LOAD");
+        this.gprThreeLoadButton = new JButton("LOAD");
+        this.ixrOneLoadButton = new JButton("LOAD");
+        this.ixrTwoLoadButton = new JButton("LOAD");
+        this.ixrThreeLoadButton = new JButton("LOAD");
+        this.storeButton = new JButton("STORE");
+        this.storePlusButton = new JButton("STORE +");
+        this.mainLoadButton = new JButton("LOAD");
+        this.initButton = new JButton("INIT");
+        this.singleStepButton = new JButton("SS");
+        this.runButton = new JButton("RUN");
+    }
 
-store.setBounds(900,560,100,40);
-storeplus.setBounds(1050,560,100,40);
-loaddown.setBounds(1200,560,100,40);
-init.setBounds(1350,560,100,40);
-init.setBackground(Color.red);
-init.setForeground(Color.white);
+    private void applyButtonStyles() {
+        this.pcLoadButton.setBounds(1300,80,100, 40);
+        this.marLoadButton.setBounds(1300,150,100, 40);
+        this.mbrLoadButton.setBounds(1300,220,100, 40);
+        this.gprZeroLoadButton.setBounds(565,80,100, 40);
+        this.gprOneLoadButton.setBounds(565,150,100, 40);
+        this.gprTwoLoadButton.setBounds(565,220,100, 40);
+        this.gprThreeLoadButton.setBounds(565,290,100, 40);
+        this.ixrOneLoadButton.setBounds(565,420,100, 40);
+        this.ixrTwoLoadButton.setBounds(565,490,100, 40);
+        this.ixrThreeLoadButton.setBounds(565,560,100, 40);
+        this.storeButton.setBounds(900,560,100,40);
+        this.storePlusButton.setBounds(1050,560,100,40);
+        this.mainLoadButton.setBounds(1200,560,100,40);
+        this.initButton.setBounds(1350,560,100,40);
+        this.initButton.setBackground(Color.red);
+        this.initButton.setForeground(Color.white);
+        this.singleStepButton.setBounds(1210,650,50,100);
+        this.runButton.setBounds(1270,650,60,100);
+    }
 
+    private void addButtons() {
+        add(pcLoadButton);
+        add(marLoadButton);
+        add(mbrLoadButton);
+        add(gprZeroLoadButton);
+        add(gprOneLoadButton);
+        add(gprTwoLoadButton);
+        add(gprThreeLoadButton);
+        add(ixrOneLoadButton);
+        add(ixrTwoLoadButton);
+        add(ixrThreeLoadButton);
+        add(storeButton);
+        add(storePlusButton);
+        add(mainLoadButton);
+        add(initButton);
+        add(singleStepButton);
+        add(runButton);
+    }
 
+    private void createTextFields() {
+        this.opcodeTextField = new JTextField();
+        this.programControlTextField = new JTextField();
+        this.marTextField = new JTextField();
+        this.mbrTextField = new JTextField();
+        this.irTextField = new JTextField();
+        this.mfrTextField = new JTextField();
+        this.privilegedTextField = new JTextField();
+        this.gprZeroTextField = new JTextField();
+        this.gprOneTextField = new JTextField();
+        this.gprTwoTextField = new JTextField();
+        this.gprThreeTextField = new JTextField();
+        this.ixrOneTextField= new JTextField();
+        this.ixrTwoTextField= new JTextField();
+        this.ixrThreeTextField= new JTextField();
+        this.haltTextField = new JTextField();
+        this.runTextField = new JTextField();
+    }
 
-ss.setBounds(1210,650,50,100);
-run.setBounds(1270,650,60,100);
+    private void applyStylesTextFields() {
+        this.programControlTextField.setBounds(800,80,400,40);
+        this.marTextField.setBounds(800,150,400,40);
+        this.mbrTextField.setBounds(800,220,400,40);
+        this.irTextField.setBounds(800,290,400,40);
+        this.mfrTextField.setBounds(800,360,400,40);
+        this.privilegedTextField.setBounds(800,430,400,40);
+        this.gprZeroTextField.setBounds(100,80,400,40);
+        this.gprOneTextField.setBounds(100,150,400,40);
+        this.gprTwoTextField.setBounds(100,220,400,40);
+        this.gprThreeTextField.setBounds(100,290,400,40);
+        this.ixrOneTextField.setBounds(100,420,400,40);
+        this.ixrTwoTextField.setBounds(100,490,400,40);
+        this.ixrThreeTextField.setBounds(100,560,400,40);
+        this.haltTextField.setBounds(1450,650,75,40);
+        this.runTextField.setBounds(1450,710,75,40);
+        this.opcodeTextField.setBounds(50,675,1100,50);
+    }
 
-add(loadright1);//adding button on frame 
-add(loadright2);
-add(loadright3);
+    private void addTextFields() {
+        add(opcodeTextField);
+        add(programControlTextField);
+        add(marTextField);
+        add(mbrTextField);
+        add(irTextField);
+        add(mfrTextField);
+        add(privilegedTextField);
+        add(gprZeroTextField);
+        add(gprOneTextField);
+        add(gprTwoTextField);
+        add(gprThreeTextField);
+        add(ixrOneTextField);
+        add(ixrTwoTextField);
+        add(ixrThreeTextField);
+        add(haltTextField);
+        add(runTextField);
+    }
 
-add(loadleft1);
-add(loadleft2);
-add(loadleft3);
-add(loadleft4);
-add(loadleft5);
-add(loadleft6);
-add(loadleft7);
+    private void createLabels() {
+        this.gprZeroLabel = new JLabel("GPR  0");
+        this.gprOneLabel = new JLabel("GPR  1");
+        this.gprTwoLabel = new JLabel("GPR  2");
+        this.gprThreeLabel = new JLabel("GPR  3");
+        this.ixrOneLabel = new JLabel("IXR  1");
+        this. ixrTwoLabel = new JLabel("IXR  2");
+        this.ixrThreeLabel = new JLabel("IXR  3");
+        this.programControlLabel = new JLabel("PC");
+        this.marLabel = new JLabel("MAR");
+        this.mbrLabel = new JLabel("MBR");
+        this.irLabel = new JLabel("IR");
+        this.mfrLabel = new JLabel("MFR");
+        this.privilegedLabel = new JLabel("PRIVILEGED");
+        this.operationsOpcodeLabel = new JLabel("OPERATIONS");
+        this.gprOpcodeLabel = new JLabel("GPR");
+        this.ixrOpcodeLabel = new JLabel("IXR");
+        this.indirectModeOpcodeLabel = new JLabel("I");
+        this.addressOpcodeLabel = new JLabel("ADDRESS");
+        this.haltLabel =  new JLabel("HALT");
+        this.runLabel = new JLabel("RUN");
+    }
 
-add(store);
-add(storeplus);
-add(loaddown);
-add(init);
+    private void applyStylesLabel() {
+        this.gprZeroLabel.setBounds(30,80,200,40);
+        this.gprOneLabel.setBounds(30,150,200,40);
+        this.gprTwoLabel.setBounds(30,220,200,40);
+        this.gprThreeLabel.setBounds(30,290,200,40);
+        this.ixrOneLabel.setBounds(30,420,200,40);
+        this.ixrTwoLabel.setBounds(30,490,200,40);
+        this.ixrThreeLabel.setBounds(30,560,200,40);
+        this.programControlLabel.setBounds(700,80,200,40);
+        this.marLabel.setBounds(700,150,200,40);
+        this.mbrLabel.setBounds(700,220,200,40);
+        this.irLabel.setBounds(700,290,200,40);
+        this.mfrLabel.setBounds(700,360,200,40);
+        this.privilegedLabel.setBounds(700,430,200,40);
+        this. operationsOpcodeLabel.setBounds(170,750,200,40);
+        this.gprOpcodeLabel.setBounds(490,750,200,40);
+        this.ixrOpcodeLabel.setBounds(650,750,200,40);
+        this.indirectModeOpcodeLabel.setBounds(792,750,200,40);
+        this.addressOpcodeLabel.setBounds(990,750,200,40);
+        this.haltLabel.setBounds(1375,650,200,40);
+        this.runLabel.setBounds(1375,710,200,40);
+    }
 
+    private void addLabels() {
+        add(gprZeroLabel);
+        add(gprOneLabel);
+        add(gprTwoLabel);
+        add(gprThreeLabel);
+        add(ixrOneLabel);
+        add(ixrTwoLabel);
+        add(ixrThreeLabel);
+        add(programControlLabel);
+        add(marLabel);
+        add(mbrLabel);
+        add(irLabel);
+        add(mfrLabel);
+        add(privilegedLabel);
+        add(operationsOpcodeLabel);
+        add(gprOpcodeLabel);
+        add(ixrOpcodeLabel);
+        add(indirectModeOpcodeLabel);
+        add(addressOpcodeLabel);
+        add(haltLabel);
+        add(runLabel);
+    }
 
-add(ss);
-add(run);
+    private void updateOrSetAllTextFieldValues() {
+        String opcode = service.simulator.getOpcode().getOperations()
+                + service.simulator.getOpcode().getGeneralPurposeRegister()
+                + service.simulator.getOpcode().getIndexRegister()
+                + service.simulator.getOpcode().getIndirectMode()
+                + service.simulator.getOpcode().getAddress();
+        setComponentValue(this.opcodeTextField, opcode);
 
-JTextField bigbox= new JTextField();
+        setComponentValue(this.programControlTextField, service.simulator.getProgramControl());
+        setComponentValue(this.marTextField, service.simulator.getMemoryAddressRegister());
+        setComponentValue(this.mbrTextField, service.simulator.getMemoryBufferRegister());
+        setComponentValue(this.irTextField, service.simulator.getInstructionRegister());
+        setComponentValue(this.mfrTextField, service.simulator.getMemoryFaultRegister());
+        setComponentValue(this.privilegedTextField, service.simulator.getPrivileged());
 
-JTextField righttf1= new JTextField();
-JTextField righttf2= new JTextField();
-JTextField righttf3= new JTextField();
-JTextField righttf4= new JTextField();
-JTextField righttf5= new JTextField();
-JTextField righttf6= new JTextField();
+        setComponentValue(this.gprZeroTextField,
+                service.simulator.getGeneralPurposeRegister().getRegisterZero());
+        setComponentValue(this.gprOneTextField,
+                service.simulator.getGeneralPurposeRegister().getRegisterOne());
+        setComponentValue(this.gprTwoTextField,
+                service.simulator.getGeneralPurposeRegister().getRegisterTwo());
+        setComponentValue(this.gprThreeTextField,
+                service.simulator.getGeneralPurposeRegister().getRegisterThree());
 
-JTextField lefttf1= new JTextField();
-JTextField lefttf2= new JTextField();
-JTextField lefttf3= new JTextField();
-JTextField lefttf4= new JTextField();
-JTextField lefttf5= new JTextField();
-JTextField lefttf6= new JTextField();
-JTextField lefttf7= new JTextField();
+        setComponentValue(this.ixrOneTextField,
+                service.simulator.getIndexRegister().getRegisterOne());
+        setComponentValue(this.ixrTwoTextField,
+                service.simulator.getIndexRegister().getRegisterTwo());
+        setComponentValue(this.ixrTwoTextField,
+                service.simulator.getIndexRegister().getRegisterThree());
 
-JTextField halt2= new JTextField();
-JTextField run2= new JTextField();
+        setComponentValue(this.haltTextField, service.simulator.getHalt());
+        setComponentValue(this.runTextField, service.simulator.getRun());
+    }
 
-righttf1.setBounds(935,80,400,40);
-righttf2.setBounds(935,150,400,40);
-righttf3.setBounds(935,220,400,40);
-righttf4.setBounds(935,290,400,40);
-righttf5.setBounds(935,360,400,40);
-righttf6.setBounds(935,430,400,40);
+    private void setComponentValue(JTextField textFieldComponent, String value) {
+        if (value == null || value.isBlank() || value.isEmpty()) {
+            value = "";
+        }
+        textFieldComponent.setText(value);
+    }
+    private void addComponentListeners() {
+        pcLoadButton.addActionListener(event -> {
+            String programControlValue = programControlTextField.getText();
+            System.out.println("PC .. Button pressed"+programControlValue);
+            System.out.println("Before"+service.simulator);
+            this.service.programControlListener(programControlValue);
+            System.out.println("After"+service.simulator);
+        });
 
-lefttf1.setBounds(100,80,400,40);
-lefttf2.setBounds(100,150,400,40);
-lefttf3.setBounds(100,220,400,40);
-lefttf4.setBounds(100,290,400,40);
-lefttf5.setBounds(100,420,400,40);
-lefttf6.setBounds(100,490,400,40);
-lefttf7.setBounds(100,560,400,40);
-
-halt2.setBounds(1450,650,75,40);
-run2.setBounds(1450,710,75,40);
-
-bigbox.setBounds(50,675,1100,50);
-
-add(bigbox);
-add(righttf1);
-add(righttf2);
-add(righttf3);
-add(righttf4);
-add(righttf5);
-add(righttf6);
-
-add(lefttf1);
-add(lefttf2);
-add(lefttf3);
-add(lefttf4);
-add(lefttf5);
-add(lefttf6);
-add(lefttf7);
-
-add(halt2);
-add(run2);
-
-JLabel gpr0 = new JLabel("GPR  0");
-JLabel gpr1 = new JLabel("GPR  1");
-JLabel gpr2 = new JLabel("GPR  2");
-JLabel gpr3 = new JLabel("GPR  3");
-
-JLabel ixr1 = new JLabel("IXR  1");
-JLabel ixr2 = new JLabel("IXR  2");
-JLabel ixr3 = new JLabel("IXR  3");
-
-JLabel pc = new JLabel("PC");
-JLabel mar = new JLabel("MAR");
-JLabel mbr = new JLabel("MBR");
-JLabel ir = new JLabel("IR");
-JLabel mfr = new JLabel("MFR");
-JLabel priv = new JLabel("PRIVILEGED");
-
-JLabel operations = new JLabel("OPERATIONS");
-JLabel gprdown = new JLabel("GPR");
-JLabel ixrdown = new JLabel("IXR");
-JLabel i = new JLabel("I");
-JLabel address= new JLabel("ADDRESS");
-
-JLabel halt=  new JLabel("HALT");
-JLabel run1= new JLabel("RUN");
-
-gpr0.setBounds(30,80,200,40);
-gpr1.setBounds(30,150,200,40);
-gpr2.setBounds(30,220,200,40);
-gpr3.setBounds(30,290,200,40);
-
-ixr1.setBounds(30,420,200,40);
-ixr2.setBounds(30,490,200,40);
-ixr3.setBounds(30,560,200,40);
-
-pc.setBounds(850,80,200,40);
-mar.setBounds(850,150,200,40);
-mbr.setBounds(850,220,200,40);
-ir.setBounds(850,290,200,40);
-mfr.setBounds(850,360,200,40);
-priv.setBounds(850,430,200,40);
-
-operations.setBounds(170,750,200,40);
-gprdown.setBounds(490,750,200,40);
-ixrdown.setBounds(650,750,200,40);
-
-i.setBounds(792,750,200,40);
-
-address.setBounds(990,750,200,40);
-
-halt.setBounds(1375,650,200,40);
-run1.setBounds(1375,710,200,40);
-
-add(gpr0);
-add(gpr1);
-add(gpr2);
-add(gpr3);
-
-add(ixr1);
-add(ixr2);
-add(ixr3);
-
-add(pc);
-add(mar);
-add(mbr);
-add(ir);
-add(mfr);
-add(priv);
-
-add(operations);
-add(gprdown);
-add(ixrdown);
-add(i);
-
-add(address);
-
-add(halt);
-add(run1);
-
-setSize(300,400);  
-setLayout(null);  
-setVisible(true); 
-
-
-}  
-
-
-public static void main(String[] args) {  
-new Mslgui();  
-}}  
+        marLoadButton.addActionListener(event -> {
+            service.memoryAddressRegisterListener(marTextField.getText());
+            setComponentValue(mbrTextField, service.simulator.getMemoryBufferRegister());
+        });
+    }
+    public static void main(String[] args) {
+        new Mslgui();
+    }
+}
