@@ -283,10 +283,10 @@ public class Mslgui extends JFrame {
     }
 
     private void updateOrSetAllTextFieldValues() {
-        String opcode = service.simulator.getOpcode().getOperations()
-                + service.simulator.getOpcode().getGeneralPurposeRegister()
-                + service.simulator.getOpcode().getIndexRegister()
-                + service.simulator.getOpcode().getIndirectMode()
+        String opcode = service.simulator.getOpcode().getOperations() + " "
+                + service.simulator.getOpcode().getGeneralPurposeRegister() + " "
+                + service.simulator.getOpcode().getIndexRegister() + " "
+                + service.simulator.getOpcode().getIndirectMode() + " "
                 + service.simulator.getOpcode().getAddress();
         setComponentValue(this.opcodeTextField, opcode);
 
@@ -326,10 +326,8 @@ public class Mslgui extends JFrame {
     private void addComponentListeners() {
         pcLoadButton.addActionListener(event -> {
             String programControlValue = programControlTextField.getText();
-            System.out.println("PC .. Button pressed"+programControlValue);
-            System.out.println("Before"+service.simulator);
             this.service.programControlListener(programControlValue);
-            System.out.println("After"+service.simulator);
+            updateOrSetAllTextFieldValues();
         });
 
         marLoadButton.addActionListener(event -> {

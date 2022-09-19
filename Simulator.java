@@ -31,7 +31,7 @@ public class Simulator {
     }
 
     public void setProgramControl(String programControl) {
-        this.programControl = programControl;
+        this.programControl = Utils.convertHexadecimalNumberInFourDigits(programControl);
     }
 
     public String getMemoryAddressRegister() {
@@ -39,7 +39,7 @@ public class Simulator {
     }
 
     public void setMemoryAddressRegister(String memoryAddressRegister) {
-        this.memoryAddressRegister = memoryAddressRegister;
+        this.memoryAddressRegister = Utils.convertHexadecimalNumberInFourDigits(memoryAddressRegister);
     }
 
     public String getMemoryBufferRegister() {
@@ -47,7 +47,7 @@ public class Simulator {
     }
 
     public void setMemoryBufferRegister(String memoryBufferRegister) {
-        this.memoryBufferRegister = memoryBufferRegister;
+        this.memoryBufferRegister = Utils.convertHexadecimalNumberInFourDigits(memoryBufferRegister);
     }
 
     public String getMemoryFaultRegister() {
@@ -63,7 +63,7 @@ public class Simulator {
     }
 
     public void setInstructionRegister(String instructionRegister) {
-        this.instructionRegister = instructionRegister;
+        this.instructionRegister = Utils.convertHexadecimalNumberInFourDigits(instructionRegister);
     }
 
     public String getPrivileged() {

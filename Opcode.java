@@ -6,6 +6,7 @@ public class Opcode {
     private String indexRegister;
     private String indirectMode;
     private String address;
+    private String effectiveAddress;
 
     Opcode() {
         operations = "";
@@ -54,6 +55,14 @@ public class Opcode {
         this.address = address;
     }
 
+    public String getEffectiveAddress() {
+        return effectiveAddress;
+    }
+
+    public void setEffectiveAddress(String effectiveAddress) {
+        this.effectiveAddress = Utils.convertHexadecimalNumberInFourDigits(effectiveAddress);
+    }
+
     @Override
     public String toString() {
         return "Opcode{" +
@@ -62,6 +71,7 @@ public class Opcode {
                 ", indexRegister='" + indexRegister + '\'' +
                 ", indirectMode='" + indirectMode + '\'' +
                 ", address='" + address + '\'' +
+                ", effectiveAddress='" + effectiveAddress + '\'' +
                 '}';
     }
 }
