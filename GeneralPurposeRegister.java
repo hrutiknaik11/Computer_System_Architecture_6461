@@ -19,7 +19,8 @@ public class GeneralPurposeRegister {
     }
 
     public void setRegisterZero(String registerZero) {
-        this.registerZero = registerZero;
+
+        this.registerZero = Utils.convertHexadecimalNumberInFourDigits(registerZero);
     }
 
     public String getRegisterOne() {
@@ -27,7 +28,8 @@ public class GeneralPurposeRegister {
     }
 
     public void setRegisterOne(String registerOne) {
-        this.registerOne = registerOne;
+
+        this.registerOne = Utils.convertHexadecimalNumberInFourDigits(registerOne);
     }
 
     public String getRegisterTwo() {
@@ -35,7 +37,8 @@ public class GeneralPurposeRegister {
     }
 
     public void setRegisterTwo(String registerTwo) {
-        this.registerTwo = registerTwo;
+
+        this.registerTwo = Utils.convertHexadecimalNumberInFourDigits(registerTwo);
     }
 
     public String getRegisterThree() {
@@ -43,7 +46,8 @@ public class GeneralPurposeRegister {
     }
 
     public void setRegisterThree(String registerThree) {
-        this.registerThree = registerThree;
+
+        this.registerThree = Utils.convertHexadecimalNumberInFourDigits(registerThree);
     }
 
     @Override

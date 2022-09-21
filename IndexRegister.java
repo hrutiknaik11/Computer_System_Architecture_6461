@@ -17,7 +17,8 @@ public class IndexRegister {
     }
 
     public void setRegisterOne(String registerOne) {
-        this.registerOne = registerOne;
+
+        this.registerOne = Utils.convertHexadecimalNumberInFourDigits(registerOne);
     }
 
     public String getRegisterTwo() {
@@ -25,7 +26,8 @@ public class IndexRegister {
     }
 
     public void setRegisterTwo(String registerTwo) {
-        this.registerTwo = registerTwo;
+
+        this.registerTwo = Utils.convertHexadecimalNumberInFourDigits(registerTwo);
     }
 
     public String getRegisterThree() {
@@ -33,7 +35,8 @@ public class IndexRegister {
     }
 
     public void setRegisterThree(String registerThree) {
-        this.registerThree = registerThree;
+
+        this.registerThree = Utils.convertHexadecimalNumberInFourDigits(registerThree);
     }
 
     @Override

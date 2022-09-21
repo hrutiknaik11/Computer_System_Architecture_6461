@@ -53,8 +53,9 @@ public class Service {
     private void performOperations() {
         String operationsCodeInOctal = Utils.convertBinaryToOctalNumber(
                 simulator.getOpcode().getOperations());
+        String octalInProperForm = Utils.convertOctalToProperTwoDigitOctalNumber(operationsCodeInOctal);
         calculateEffectiveAddress();
-        switch (operationsCodeInOctal) {
+        switch (octalInProperForm) {
             case "01":
                 performLoadRegisterFromMemoryOperation();
                 break;
@@ -145,7 +146,9 @@ public class Service {
     }
 
     private void performLoadRegisterFromMemoryOperation() {
-
+        String getValueFromMainMemoryInHexadecimal = getDataFromMainMemoryByLocation(
+                simulator.getOpcode().getEffectiveAddress());
+        loadGPRFromOpcode(getValueFromMainMemoryInHexadecimal);
     }
 
     private void performStoreRegisterToMemoryOperation() {
@@ -153,14 +156,48 @@ public class Service {
     }
 
     private void performLoadRegisterWithAddressOperation() {
-
+        loadGPRFromOpcode(simulator.getOpcode().getEffectiveAddress());
     }
 
     private void performLoadIndexRegisterFromMemoryOperation() {
-
+        String getValueFromMainMemoryInHexadecimal = getDataFromMainMemoryByLocation(
+                simulator.getOpcode().getEffectiveAddress());
+        loadIndexRegisterFromOpcode(getValueFromMainMemoryInHexadecimal);
     }
 
     private void performStoreIndexRegisterToMemoryOperation() {
 
+    }
+
+    private void loadGPRFromOpcode(String data) {
+        String gprRegisterSelect = simulator.getOpcode().getGeneralPurposeRegister();
+        GeneralPurposeRegister generalPurposeRegister = simulator.getGeneralPurposeRegister();
+        if (gprRegisterSelect.equals("00")) {
+            generalPurposeRegister.setRegisterZero(data);
+            return;
+        }
+        if (gprRegisterSelect.equals("01")) {
+            generalPurposeRegister.setRegisterOne(data);
+            return;
+        }
+        if (gprRegisterSelect.equals("10")) {
+            generalPurposeRegister.setRegisterTwo(data);
+            return;
+        }
+        generalPurposeRegister.setRegisterThree(data);
+    }
+
+    private void loadIndexRegisterFromOpcode(String data) {
+        String ixrRegisterSelect = simulator.getOpcode().getIndexRegister();
+        IndexRegister indexRegister = simulator.getIndexRegister();
+        if (ixrRegisterSelect.equals("01")) {
+            indexRegister.setRegisterOne(data);
+            return;
+        }
+        if (ixrRegisterSelect.equals("10")) {
+            indexRegister.setRegisterTwo(data);
+            return;
+        }
+        indexRegister.setRegisterThree(data);
     }
 }

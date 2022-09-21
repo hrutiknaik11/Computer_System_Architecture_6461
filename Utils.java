@@ -10,13 +10,13 @@ public class Utils {
 
     public static List<String> mockMainMemory() {
         List<String> mainMemory = new ArrayList<>();
-        mainMemory.add(0,"1953");
-        mainMemory.add(1,"2");
+        mainMemory.add(0,"33857");
+        mainMemory.add(1,"4");
         mainMemory.add(2,"13");
         mainMemory.add(3,"133");
         mainMemory.add(4,"14");
-        mainMemory.add(5,"15");
-        mainMemory.add(6,"16");
+        mainMemory.add(5,"4");
+        mainMemory.add(6,"17");
         mainMemory.add(7,"17");
         mainMemory.add(8,"18");
         mainMemory.add(9,"19");
@@ -50,7 +50,11 @@ public class Utils {
     }
 
     public static String convertBinaryToOctalNumber(String value) {
-        return Integer.toOctalString(convertHexadecimalToDecimal(value));
+        return Integer.toOctalString(convertBinaryToDecimal(value));
+    }
+
+    public static String convertOctalToProperTwoDigitOctalNumber(String value) {
+        return ("00" + value).substring(value.length());
     }
 
     public static int convertBinaryToDecimal(String value) {
