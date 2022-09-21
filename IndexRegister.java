@@ -8,9 +8,9 @@ public class IndexRegister {
     IndexRegister() {
         //TODO: Mocked for now..
         //It is in decimal value
-        registerOne = "9";
-        registerTwo = "3";
-        registerThree = "0";
+        registerOne = "0001";
+        registerTwo = "0003";
+        registerThree = "0004";
     }
     public String getRegisterOne() {
         return registerOne;

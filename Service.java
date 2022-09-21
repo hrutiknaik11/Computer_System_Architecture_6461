@@ -21,8 +21,7 @@ public class Service {
                 simulator.getMemoryAddressRegister()));
         simulator.setInstructionRegister(simulator.getMemoryBufferRegister());
 
-        //TODO: Need to test
-//        decodeOpcode();
+        decodeOpcode();
     }
 
     public void memoryAddressRegisterListener(String value) {
@@ -93,9 +92,10 @@ public class Service {
     private void calculateEffectiveAddressForFalseIndirectMode() {
         int effectiveAddressInDecimal = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getAddress());
-        int indexRegisterDataInDecimal = getDataFromIndexRegisterByAddress();
+        int indexRegisterDataInDecimalInteger = Utils.convertHexadecimalToDecimal(
+                getDataFromIndexRegisterByAddress());
         int calculatedEffectiveAddressInDecimal = effectiveAddressInDecimal +
-                indexRegisterDataInDecimal;
+                indexRegisterDataInDecimalInteger;
         String calculatedEffectiveAddressInDecimalString = Utils.convertIntegerToString(
                 calculatedEffectiveAddressInDecimal);
         String calculatedEffectiveAddressInHexadecimal = Utils.convertDecimalToHexadecimal(
@@ -104,13 +104,15 @@ public class Service {
     }
 
     private void calculateEffectiveAddressForTrueIndirectMode() {
-        int indexRegisterDataInDecimal = getDataFromIndexRegisterByAddress();
+        int indexRegisterDataInDecimal = Utils.convertHexadecimalToDecimal(
+                getDataFromIndexRegisterByAddress());
         int addressInOpcodeInDecimalInteger = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getAddress());
 
         String addressInOpcodeInDecimalString = Utils.convertIntegerToString(addressInOpcodeInDecimalInteger);
+        String addressInOpcodeInHexadecimalString = Utils.convertDecimalToHexadecimal(addressInOpcodeInDecimalString);
         String effectiveAddressDataFromMemoryInHexadecimal = getDataFromMainMemoryByLocation(
-                addressInOpcodeInDecimalString);
+                addressInOpcodeInHexadecimalString);
         int effectiveAddressDataFromMemoryInDecimalInteger = Utils.convertHexadecimalToDecimal(
                 effectiveAddressDataFromMemoryInHexadecimal);
 
@@ -118,23 +120,28 @@ public class Service {
                 effectiveAddressDataFromMemoryInDecimalInteger;
         String preCalculatedEffectiveAddressInDecimalString = Utils.convertIntegerToString(
                 preCalculatedEffectiveAddressInDecimalInteger);
-        String calculatedEffectiveAddressInHexadecimal = getDataFromMainMemoryByLocation(
+        String preCalculatedEffectiveAddressInHexadecimalString = Utils.convertDecimalToHexadecimal(
                 preCalculatedEffectiveAddressInDecimalString);
+        String calculatedEffectiveAddressInHexadecimal = getDataFromMainMemoryByLocation(
+                preCalculatedEffectiveAddressInHexadecimalString);
         simulator.getOpcode().setEffectiveAddress(calculatedEffectiveAddressInHexadecimal);
     }
 
-    private int getDataFromIndexRegisterByAddress() {
+    private String getDataFromIndexRegisterByAddress() {
         int indexRegisterInDecimal = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getIndexRegister());
         String indexRegisterDataInDecimalString;
         if (indexRegisterInDecimal == 1) {
-            indexRegisterDataInDecimalString = simulator.getIndexRegister().getRegisterOne();
+            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
+                    simulator.getIndexRegister().getRegisterOne());
         } else if (indexRegisterInDecimal == 2) {
-            indexRegisterDataInDecimalString = simulator.getIndexRegister().getRegisterTwo();
+            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
+                    simulator.getIndexRegister().getRegisterTwo());
         } else {
-            indexRegisterDataInDecimalString = simulator.getIndexRegister().getRegisterThree();
+            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
+                    simulator.getIndexRegister().getRegisterThree());
         }
-        return Utils.convertStringToInteger(indexRegisterDataInDecimalString);
+        return indexRegisterDataInDecimalString;
     }
 
     private void performLoadRegisterFromMemoryOperation() {

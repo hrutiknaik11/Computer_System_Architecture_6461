@@ -5,16 +5,15 @@ import java.util.List;
 
 public class Utils {
     public static Simulator setDefaultValuesSimulator() {
-        Simulator simulator = new Simulator();
-        return simulator;
+        return new Simulator();
     }
 
     public static List<String> mockMainMemory() {
         List<String> mainMemory = new ArrayList<>();
-        mainMemory.add(0,"11");
-        mainMemory.add(1,"12");
+        mainMemory.add(0,"1953");
+        mainMemory.add(1,"2");
         mainMemory.add(2,"13");
-        mainMemory.add(3,"14");
+        mainMemory.add(3,"133");
         mainMemory.add(4,"14");
         mainMemory.add(5,"15");
         mainMemory.add(6,"16");

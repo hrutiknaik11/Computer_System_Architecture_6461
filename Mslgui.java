@@ -310,7 +310,7 @@ public class Mslgui extends JFrame {
                 service.simulator.getIndexRegister().getRegisterOne());
         setComponentValue(this.ixrTwoTextField,
                 service.simulator.getIndexRegister().getRegisterTwo());
-        setComponentValue(this.ixrTwoTextField,
+        setComponentValue(this.ixrThreeTextField,
                 service.simulator.getIndexRegister().getRegisterThree());
 
         setComponentValue(this.haltTextField, service.simulator.getHalt());
