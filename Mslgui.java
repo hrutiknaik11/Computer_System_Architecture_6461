@@ -6,7 +6,10 @@ package com.mycompany.mslgui;
  */
 
 import java.awt.Color;
-import javax.swing.*;  
+import java.io.File;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+
 public class Mslgui extends JFrame {
 
     private final Service service;
@@ -131,8 +134,6 @@ public class Mslgui extends JFrame {
         this.storePlusButton.setBounds(1050,560,100,40);
         this.mainLoadButton.setBounds(1200,560,100,40);
         this.initButton.setBounds(1350,560,100,40);
-        this.initButton.setBackground(Color.red);
-        this.initButton.setForeground(Color.white);
         this.singleStepButton.setBounds(1210,650,50,100);
         this.runButton.setBounds(1270,650,60,100);
     }
@@ -177,20 +178,50 @@ public class Mslgui extends JFrame {
 
     private void applyStylesTextFields() {
         this.programControlTextField.setBounds(800,80,400,40);
+        this.programControlTextField.setEditable(false);
+
         this.marTextField.setBounds(800,150,400,40);
+        this.marTextField.setEditable(false);
+
         this.mbrTextField.setBounds(800,220,400,40);
+        this.mbrTextField.setEditable(false);
+
         this.irTextField.setBounds(800,290,400,40);
+        this.irTextField.setEditable(false);
+
         this.mfrTextField.setBounds(800,360,400,40);
+        this.mfrTextField.setEditable(false);
+
         this.privilegedTextField.setBounds(800,430,400,40);
+        this.privilegedTextField.setEditable(false);
+
         this.gprZeroTextField.setBounds(100,80,400,40);
+        this.gprZeroTextField.setEditable(false);
+
         this.gprOneTextField.setBounds(100,150,400,40);
+        this.gprOneTextField.setEditable(false);
+
         this.gprTwoTextField.setBounds(100,220,400,40);
+        this.gprTwoTextField.setEditable(false);
+
         this.gprThreeTextField.setBounds(100,290,400,40);
+        this.gprThreeTextField.setEditable(false);
+
         this.ixrOneTextField.setBounds(100,420,400,40);
+        this.ixrOneTextField.setEditable(false);
+
         this.ixrTwoTextField.setBounds(100,490,400,40);
+        this.ixrTwoTextField.setEditable(false);
+
         this.ixrThreeTextField.setBounds(100,560,400,40);
+        this.ixrThreeTextField.setEditable(false);
+
         this.haltTextField.setBounds(1450,650,75,40);
+        this.haltTextField.setEditable(false);
+
         this.runTextField.setBounds(1450,710,75,40);
+        this.runTextField.setEditable(false);
+
         this.opcodeTextField.setBounds(50,675,1100,50);
     }
 
@@ -219,7 +250,7 @@ public class Mslgui extends JFrame {
         this.gprTwoLabel = new JLabel("GPR  2");
         this.gprThreeLabel = new JLabel("GPR  3");
         this.ixrOneLabel = new JLabel("IXR  1");
-        this. ixrTwoLabel = new JLabel("IXR  2");
+        this.ixrTwoLabel = new JLabel("IXR  2");
         this.ixrThreeLabel = new JLabel("IXR  3");
         this.programControlLabel = new JLabel("PC");
         this.marLabel = new JLabel("MAR");
@@ -283,12 +314,12 @@ public class Mslgui extends JFrame {
     }
 
     private void updateOrSetAllTextFieldValues() {
-        String opcode = service.simulator.getOpcode().getOperations() + " "
-                + service.simulator.getOpcode().getGeneralPurposeRegister() + " "
-                + service.simulator.getOpcode().getIndexRegister() + " "
-                + service.simulator.getOpcode().getIndirectMode() + " "
-                + service.simulator.getOpcode().getAddress();
-        setComponentValue(this.opcodeTextField, opcode);
+//        String opcode = service.simulator.getOpcode().getOperations() + " "
+//                + service.simulator.getOpcode().getGeneralPurposeRegister() + " "
+//                + service.simulator.getOpcode().getIndexRegister() + " "
+//                + service.simulator.getOpcode().getIndirectMode() + " "
+//                + service.simulator.getOpcode().getAddress();
+//        setComponentValue(this.opcodeTextField, opcode);
 
         setComponentValue(this.programControlTextField, service.simulator.getProgramControl());
         setComponentValue(this.marTextField, service.simulator.getMemoryAddressRegister());
@@ -318,21 +349,136 @@ public class Mslgui extends JFrame {
     }
 
     private void setComponentValue(JTextField textFieldComponent, String value) {
-        if (value == null || value.isBlank() || value.isEmpty()) {
+        if (!isValidValue(value)) {
             value = "";
         }
         textFieldComponent.setText(value);
     }
+
+    /**
+     * Check whether the value string contains some value
+     * @param value String to be validate
+     * @return True only if the value string contains the non-null values
+     */
+    private boolean isValidValue(String value) {
+        if (value == null || value.isBlank() || value.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
     private void addComponentListeners() {
+//        pcLoadButton.addActionListener(event -> {
+////            String programControlValue = programControlTextField.getText();
+////            this.service.programControlListener(programControlValue);
+////            updateOrSetAllTextFieldValues();
+//
+//            String valueFromSwitches = opcodeTextField.getText();
+//            service.programControlListener(valueFromSwitches);
+//        });
+
         pcLoadButton.addActionListener(event -> {
-            String programControlValue = programControlTextField.getText();
-            this.service.programControlListener(programControlValue);
-            updateOrSetAllTextFieldValues();
+            //Exits listener if the value from opcode text field is empty or invalid.
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.programControlListener(opcodeTextField.getText());
+            setComponentValue(programControlTextField, service.simulator.getProgramControl());
         });
 
         marLoadButton.addActionListener(event -> {
-            service.memoryAddressRegisterListener(marTextField.getText());
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.memoryAddressRegisterListener(opcodeTextField.getText());
+            setComponentValue(marTextField, service.simulator.getMemoryAddressRegister());
+        });
+
+        mbrLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.memoryBufferRegisterListener(opcodeTextField.getText());
             setComponentValue(mbrTextField, service.simulator.getMemoryBufferRegister());
+        });
+
+        gprZeroLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.gprZeroListener(opcodeTextField.getText());
+            setComponentValue(gprZeroTextField,
+                    service.simulator.getGeneralPurposeRegister().getRegisterZero());
+        });
+
+        gprOneLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.gprOneListener(opcodeTextField.getText());
+            setComponentValue(gprOneTextField,
+                    service.simulator.getGeneralPurposeRegister().getRegisterOne());
+        });
+
+        gprTwoLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.gprTwoListener(opcodeTextField.getText());
+            setComponentValue(gprTwoTextField,
+                    service.simulator.getGeneralPurposeRegister().getRegisterTwo());
+        });
+
+        gprThreeLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.gprThreeListener(opcodeTextField.getText());
+            setComponentValue(gprThreeTextField,
+                    service.simulator.getGeneralPurposeRegister().getRegisterThree());
+        });
+
+        ixrOneLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.ixrOneListener(opcodeTextField.getText());
+            setComponentValue(ixrOneTextField,
+                    service.simulator.getIndexRegister().getRegisterOne());
+        });
+
+        ixrTwoLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.ixrTwoListener(opcodeTextField.getText());
+            setComponentValue(ixrTwoTextField,
+                    service.simulator.getIndexRegister().getRegisterTwo());
+        });
+
+        ixrThreeLoadButton.addActionListener(event -> {
+            if (!isValidValue(opcodeTextField.getText())) return;
+            service.ixrThreeListener(opcodeTextField.getText());
+            setComponentValue(ixrThreeTextField,
+                    service.simulator.getIndexRegister().getRegisterThree());
+        });
+
+        mainLoadButton.addActionListener(event -> {
+            if (!isValidValue(service.simulator.getMemoryAddressRegister())) return;
+            service.mainLoadButtonListener();
+            setComponentValue(mbrTextField, service.simulator.getMemoryBufferRegister());
+        });
+
+        storeButton.addActionListener(event -> {
+            if (!isValidValue(service.simulator.getMemoryBufferRegister())) return;
+            if (!isValidValue(service.simulator.getMemoryAddressRegister())) return;
+            service.mainStoreButtonListener();
+        });
+
+        storePlusButton.addActionListener(event -> {
+
+        });
+
+        singleStepButton.addActionListener(event -> {
+            if (!isValidValue(service.simulator.getProgramControl())) return;
+            service.singleStepListener();
+            updateOrSetAllTextFieldValues();
+        });
+
+        runButton.addActionListener(event -> {
+            service.runListener();
+        });
+
+        initButton.addActionListener(event -> {
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = fileChooser.showOpenDialog(null);
+            System.out.println(returnValue);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                service.readInputFile(selectedFile.getAbsolutePath());
+            }
+            updateOrSetAllTextFieldValues();
         });
     }
     public static void main(String[] args) {

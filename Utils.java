@@ -8,20 +8,8 @@ public class Utils {
         return new Simulator();
     }
 
-    public static List<String> mockMainMemory() {
-        List<String> mainMemory = new ArrayList<>();
-        mainMemory.add(0,"33857");
-        mainMemory.add(1,"4");
-        mainMemory.add(2,"13");
-        mainMemory.add(3,"133");
-        mainMemory.add(4,"14");
-        mainMemory.add(5,"4");
-        mainMemory.add(6,"17");
-        mainMemory.add(7,"17");
-        mainMemory.add(8,"18");
-        mainMemory.add(9,"19");
-        mainMemory.add(10,"20");
-        return mainMemory;
+    public static List<String> initializeMainMemory() {
+        return new ArrayList<>();
     }
 
     public static int convertHexadecimalToDecimal(String value) {

@@ -6,11 +6,9 @@ public class IndexRegister {
     private String registerThree;
 
     IndexRegister() {
-        //TODO: Mocked for now..
-        //It is in decimal value
-        registerOne = "0001";
-        registerTwo = "0003";
-        registerThree = "0004";
+        registerOne = "";
+        registerTwo = "";
+        registerThree = "";
     }
     public String getRegisterOne() {
         return registerOne;
