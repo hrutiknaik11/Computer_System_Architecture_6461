@@ -468,6 +468,7 @@ public class Mslgui extends JFrame {
 
         runButton.addActionListener(event -> {
             service.runListener();
+            updateOrSetAllTextFieldValues();
         });
 
         initButton.addActionListener(event -> {

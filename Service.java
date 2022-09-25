@@ -154,6 +154,22 @@ public class Service {
         performOperations();
     }
 
+    /**
+     * Performing run operation from current program control value
+     */
+    public void runListener() {
+        int mainMemoryLength = mainMemory.size();
+        int i = Utils.convertHexadecimalToDecimal(simulator.getProgramControl());
+        while (i < mainMemoryLength) {
+            singleStepListener();
+            i++;
+        }
+    }
+
+    /**
+     * Reading the input file
+     * @param inputFilePath File path
+     */
     public void readInputFile(String inputFilePath) {
         try {
             File inputFile = new File(inputFilePath);
@@ -169,27 +185,41 @@ public class Service {
         }
     }
 
-    public void runListener() {
-
-    }
-
+    /**
+     * Reading data from the file
+     * @param data current line
+     */
     private void readDataFromFile(String data) {
         String memoryLocation = data.substring(0,4);
         String memoryData = data.substring(5,9);
-        System.out.println(memoryData + " " + memoryLocation);
         setDataInMainMemoryByLocation(memoryData, memoryLocation);
     }
 
+    /**
+     * Getting data from the memory location
+     * @param value main memory location
+     * @return data from the specific main memory location
+     */
     private String getDataFromMainMemoryByLocation(String value) {
         int memoryLocation = Utils.convertHexadecimalToDecimal(value);
         return Utils.convertDecimalToHexadecimal(mainMemory.get(memoryLocation));
     }
 
+    /**
+     * Decoding opcode
+     * @param value opcode value
+     */
     private void decodeOpcode(String value) {
+        System.out.println("value "+value);
         String binaryValue = Utils.convertHexadecimalToBinary(value);
+        System.out.println("binaryValue "+binaryValue);
         assignOpcodeValue(binaryValue);
     }
 
+    /**
+     * Assigning opcode values to specific fields
+     * @param value opcode value
+     */
     private void assignOpcodeValue(String value) {
         Opcode opcode = simulator.getOpcode();
         opcode.setOperations(value.substring(0,6));
@@ -200,6 +230,9 @@ public class Service {
         simulator.setOpcode(opcode);
     }
 
+    /**
+     * perform operations from decoded opcode
+     */
     private void performOperations() {
         String operationsCodeInOctal = Utils.convertBinaryToOctalNumber(
                 simulator.getOpcode().getOperations());
@@ -226,11 +259,21 @@ public class Service {
         }
     }
 
+    /**
+     * Calculating effective address
+     */
     private void calculateEffectiveAddress() {
         if (simulator.getOpcode().getIndexRegister().equals("00")) {
-            String effectiveAddressInHexadecimal = Utils.convertBinaryToHexadecimal(
+            if (simulator.getOpcode().getIndirectMode().equals("0")) {
+                String effectiveAddressInHexadecimal = Utils.convertBinaryToHexadecimal(
+                        simulator.getOpcode().getAddress());
+                simulator.getOpcode().setEffectiveAddress(effectiveAddressInHexadecimal);
+                return;
+            }
+            String addressInHexadecimal = Utils.convertBinaryToHexadecimal(
                     simulator.getOpcode().getAddress());
-            simulator.getOpcode().setEffectiveAddress(effectiveAddressInHexadecimal);
+            String dataFromMainMemory = getDataFromMainMemoryByLocation(addressInHexadecimal);
+            simulator.getOpcode().setEffectiveAddress(dataFromMainMemory);
             return;
         }
         if (simulator.getOpcode().getIndirectMode().equals("0")) {
@@ -240,6 +283,9 @@ public class Service {
         calculateEffectiveAddressForTrueIndirectMode();
     }
 
+    /**
+     * Calculating effective address for zero bit indirect mode
+     */
     private void calculateEffectiveAddressForFalseIndirectMode() {
         int effectiveAddressInDecimal = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getAddress());
@@ -254,19 +300,20 @@ public class Service {
         simulator.getOpcode().setEffectiveAddress(calculatedEffectiveAddressInHexadecimal);
     }
 
+    /**
+     * Calculating effective address for indirect mode
+     */
     private void calculateEffectiveAddressForTrueIndirectMode() {
         int indexRegisterDataInDecimal = Utils.convertHexadecimalToDecimal(
                 getDataFromIndexRegisterByAddress());
         int addressInOpcodeInDecimalInteger = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getAddress());
-
         String addressInOpcodeInDecimalString = Utils.convertIntegerToString(addressInOpcodeInDecimalInteger);
         String addressInOpcodeInHexadecimalString = Utils.convertDecimalToHexadecimal(addressInOpcodeInDecimalString);
         String effectiveAddressDataFromMemoryInHexadecimal = getDataFromMainMemoryByLocation(
                 addressInOpcodeInHexadecimalString);
         int effectiveAddressDataFromMemoryInDecimalInteger = Utils.convertHexadecimalToDecimal(
                 effectiveAddressDataFromMemoryInHexadecimal);
-
         int preCalculatedEffectiveAddressInDecimalInteger = indexRegisterDataInDecimal +
                 effectiveAddressDataFromMemoryInDecimalInteger;
         String preCalculatedEffectiveAddressInDecimalString = Utils.convertIntegerToString(
@@ -278,29 +325,39 @@ public class Service {
         simulator.getOpcode().setEffectiveAddress(calculatedEffectiveAddressInHexadecimal);
     }
 
+    /**
+     * getting data from index register
+     * @return
+     */
     private String getDataFromIndexRegisterByAddress() {
         int indexRegisterInDecimal = Utils.convertBinaryToDecimal(
                 simulator.getOpcode().getIndexRegister());
-        String indexRegisterDataInDecimalString;
+        String indexRegisterDataInHexadecimalString;
         if (indexRegisterInDecimal == 1) {
-            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
-                    simulator.getIndexRegister().getRegisterOne());
+            indexRegisterDataInHexadecimalString = simulator.getIndexRegister().getRegisterOne();
         } else if (indexRegisterInDecimal == 2) {
-            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
-                    simulator.getIndexRegister().getRegisterTwo());
+            indexRegisterDataInHexadecimalString = simulator.getIndexRegister().getRegisterTwo();
         } else {
-            indexRegisterDataInDecimalString = Utils.convertDecimalToHexadecimal(
-                    simulator.getIndexRegister().getRegisterThree());
+            indexRegisterDataInHexadecimalString = simulator.getIndexRegister().getRegisterThree();
         }
-        return indexRegisterDataInDecimalString;
+        if (indexRegisterDataInHexadecimalString.equals("")) {
+            return "0000";
+        }
+        return indexRegisterDataInHexadecimalString;
     }
 
+    /**
+     * Performing load operation from memory
+     */
     private void performLoadRegisterFromMemoryOperation() {
         String getValueFromMainMemoryInHexadecimal = getDataFromMainMemoryByLocation(
                 simulator.getOpcode().getEffectiveAddress());
         loadGPRFromOpcode(getValueFromMainMemoryInHexadecimal);
     }
 
+    /**
+     * perform store register to memory operation
+     */
     private void performStoreRegisterToMemoryOperation() {
         String dataFromGPRByOpcodeInHexadecimal = getDataFromGPRByOpcode();
         setDataInMainMemoryByLocation(dataFromGPRByOpcodeInHexadecimal,
@@ -342,25 +399,35 @@ public class Service {
         return indexRegister.getRegisterThree();
     }
 
+    /**
+     * perform load register with address operation
+     */
     private void performLoadRegisterWithAddressOperation() {
         loadGPRFromOpcode(simulator.getOpcode().getEffectiveAddress());
     }
 
+    /**
+     * performing load index register from memory
+     */
     private void performLoadIndexRegisterFromMemoryOperation() {
         String getValueFromMainMemoryInHexadecimal = getDataFromMainMemoryByLocation(
                 simulator.getOpcode().getEffectiveAddress());
         loadIndexRegisterFromOpcode(getValueFromMainMemoryInHexadecimal);
     }
 
+    /**
+     * performing store index register to memory
+     */
     private void performStoreIndexRegisterToMemoryOperation() {
-        System.out.println("before "+mainMemory.get(2));
         String dataFromIXRByOpcodeInHexadecimal = getDataFromIXRByOpcode();
         setDataInMainMemoryByLocation(dataFromIXRByOpcodeInHexadecimal,
                 simulator.getOpcode().getEffectiveAddress());
-        System.out.println("Effective address "+ simulator.getOpcode().getEffectiveAddress());
-        System.out.println("after "+mainMemory.get(2));
     }
 
+    /**
+     * load gpr from the opcode value
+     * @param data value to be load
+     */
     private void loadGPRFromOpcode(String data) {
         String gprRegisterSelect = simulator.getOpcode().getGeneralPurposeRegister();
         GeneralPurposeRegister generalPurposeRegister = simulator.getGeneralPurposeRegister();
@@ -379,6 +446,10 @@ public class Service {
         generalPurposeRegister.setRegisterThree(data);
     }
 
+    /**
+     * loading index register from opcode
+     * @param data value to be load
+     */
     private void loadIndexRegisterFromOpcode(String data) {
         String ixrRegisterSelect = simulator.getOpcode().getIndexRegister();
         IndexRegister indexRegister = simulator.getIndexRegister();
